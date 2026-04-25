@@ -13,68 +13,258 @@
     }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      min-height: 100vh; color: var(--white); padding: 10px;
+      min-height: 100vh; color: var(--white);
       background: radial-gradient(circle at top left, rgba(183,243,107,.12), transparent 30rem),
                   linear-gradient(135deg, var(--green-950), var(--green-800));
     }
     #root {
-      width:100%; max-width:850px; margin:0 auto; padding:14px;
+      width:100%; max-width:900px; margin:0 auto; padding:12px;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      display:flex; justify-content:space-between; align-items:center;
+      gap:8px; flex-wrap:wrap; margin-bottom:12px;
       background:rgba(4,43,19,.78); border:1px solid rgba(255,255,255,.14);
-      border-radius:16px; box-shadow:0 18px 60px rgba(0,0,0,.42);
+      border-radius:14px; padding:12px 14px;
+      box-shadow:0 8px 30px rgba(0,0,0,.3);
     }
-    .top-bar { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
-    h1 { font-size:clamp(18px,2.3vw,26px); font-weight:900; letter-spacing:.03em; text-transform:uppercase; }
-    .pill { font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:7px 10px; background:rgba(255,255,255,.08); }
-    .main { display:grid; grid-template-columns:minmax(320px,1fr) 160px; gap:12px; align-items:start; }
-    .panel { background:var(--panel); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:12px; }
-    .panel h3 { font-size:13px; color:var(--lime); text-transform:uppercase; letter-spacing:.05em; margin-bottom:9px; }
-    .hint, .progress-text { color:rgba(255,255,255,.72); font-size:12px; line-height:1.45; }
-    .hint { margin-top:-4px; margin-bottom:8px; }
-    .placement-row { display:flex; align-items:center; gap:8px; margin-bottom:5px; height:34px; }
-    .placement-num { width:24px; text-align:right; color:var(--muted); font-weight:900; font-variant-numeric:tabular-nums; font-size:13px; }
-    .placement-slot { flex:1; height:34px; display:flex; align-items:center; min-width:0; padding:0 6px; border-radius:9px; border:2px dashed rgba(255,255,255,.28); background:rgba(0,0,0,.20); transition:background .12s,border-color .12s; }
-    .placement-slot:hover, .placement-slot.drag-over, .unplaced-list.drag-over { border-color:var(--gold); background:rgba(255,212,59,.12); }
-    .unplaced-list { display:flex; flex-direction:column; gap:5px; min-height:296px; border-radius:10px; padding:8px; border:2px dashed rgba(255,255,255,.18); background:rgba(0,0,0,.16); }
+    h1 { font-size:clamp(16px,3.5vw,24px); font-weight:900; letter-spacing:.03em; text-transform:uppercase; }
+    .pill {
+      font-size:11px; color:var(--muted); border:1px solid var(--line);
+      border-radius:999px; padding:5px 10px; background:rgba(255,255,255,.08);
+      white-space:nowrap;
+    }
+
+    /* ── Desktop layout ── */
+    .main {
+      display:grid;
+      grid-template-columns:1fr 170px;
+      grid-template-rows:auto;
+      gap:12px;
+      align-items:start;
+    }
+    .panel {
+      background:var(--panel); border:1px solid rgba(255,255,255,.14);
+      border-radius:14px; padding:14px;
+    }
+    .panel h3 {
+      font-size:12px; color:var(--lime); text-transform:uppercase;
+      letter-spacing:.06em; margin-bottom:9px;
+    }
+    .hint, .progress-text { color:rgba(255,255,255,.72); font-size:12px; line-height:1.5; }
+    .hint { margin-top:-4px; margin-bottom:10px; }
+
+    /* ── Placement rows ── */
+    .placement-row {
+      display:flex; align-items:center; gap:8px; margin-bottom:5px; height:36px;
+    }
+    .placement-num {
+      width:22px; text-align:right; color:var(--muted);
+      font-weight:900; font-variant-numeric:tabular-nums; font-size:13px; flex-shrink:0;
+    }
+    .placement-slot {
+      flex:1; height:36px; display:flex; align-items:center;
+      min-width:0; padding:0 6px; border-radius:9px;
+      border:2px dashed rgba(255,255,255,.28); background:rgba(0,0,0,.20);
+      transition:background .12s,border-color .12s;
+      cursor:pointer;
+    }
+    .placement-slot:hover, .placement-slot.drag-over,
+    .unplaced-list.drag-over { border-color:var(--gold); background:rgba(255,212,59,.12); }
+
+    /* ── Unplaced list (desktop) ── */
+    .unplaced-panel { grid-column:2; }
+    .unplaced-list {
+      display:flex; flex-direction:column; gap:5px;
+      min-height:200px; border-radius:10px; padding:8px;
+      border:2px dashed rgba(255,255,255,.18); background:rgba(0,0,0,.16);
+    }
+
+    /* ── Team tags ── */
     .team-tag {
-      background:rgba(255,255,255,.96); color:#123b1d; border-radius:8px; padding:6px 8px;
-      font-size:12px; font-weight:900; cursor:grab; user-select:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      border:1px solid rgba(255,255,255,.7); box-shadow:0 2px 7px rgba(0,0,0,.18); touch-action:none;
+      background:rgba(255,255,255,.96); color:#123b1d;
+      border-radius:8px; padding:6px 8px;
+      font-size:12px; font-weight:900; cursor:grab;
+      user-select:none; white-space:nowrap; overflow:hidden;
+      text-overflow:ellipsis; width:100%;
+      border:1px solid rgba(255,255,255,.7);
+      box-shadow:0 2px 7px rgba(0,0,0,.18);
+      touch-action:none;
+      transition:background .1s, outline .1s;
     }
-    .team-tag:hover { background:#fff; } .team-tag.dragging { opacity:.35; } .team-tag.selected { outline:3px solid var(--gold); background:#fff8d8; }
-    .action-row { display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-top:12px; }
-    button { border:none; border-radius:10px; padding:8px 12px; font-size:13px; font-weight:900; cursor:pointer; transition:transform .12s,filter .12s; }
-    button:hover:not(:disabled) { transform:translateY(-1px); filter:brightness(1.05); } button:disabled { opacity:.45; cursor:not-allowed; }
+    .team-tag:hover { background:#fff; }
+    .team-tag.dragging { opacity:.35; }
+    .team-tag.selected { outline:3px solid var(--gold); background:#fff8d8; }
+    .team-tag.touch-active { background:#fff8d8; outline:3px solid var(--gold); }
+
+    /* ── Actions ── */
+    .action-row {
+      display:flex; gap:9px; flex-wrap:wrap;
+      align-items:center; margin-top:12px;
+    }
+    button {
+      border:none; border-radius:10px; padding:9px 14px;
+      font-size:13px; font-weight:900; cursor:pointer;
+      transition:transform .12s,filter .12s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    button:hover:not(:disabled) { transform:translateY(-1px); filter:brightness(1.05); }
+    button:active:not(:disabled) { transform:translateY(0); }
+    button:disabled { opacity:.45; cursor:not-allowed; }
     .primary { background:linear-gradient(135deg,#ffe066,#ffd43b); color:#173100; }
     .secondary { background:rgba(255,255,255,.12); color:white; border:1px solid rgba(255,255,255,.24); }
-    .message { display:none; margin-top:10px; padding:10px 12px; border-radius:10px; font-weight:800; font-size:13px; background:rgba(255,178,178,.16); border:1px solid rgba(255,178,178,.35); color:#ffe1e1; }
-    .result-box { margin-top:14px; background:var(--panel); border-radius:14px; padding:12px; border:1px solid rgba(255,255,255,.14); }
-    .result-header { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:9px; }
+
+    .message {
+      display:none; margin-top:10px; padding:10px 12px; border-radius:10px;
+      font-weight:800; font-size:13px;
+      background:rgba(255,178,178,.16); border:1px solid rgba(255,178,178,.35); color:#ffe1e1;
+    }
+
+    /* ── Result box ── */
+    .result-box {
+      margin-top:12px; background:var(--panel); border-radius:14px;
+      padding:14px; border:1px solid rgba(255,255,255,.14);
+    }
+    .result-header {
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px; flex-wrap:wrap; margin-bottom:9px;
+    }
     .result-header h3 { color:var(--lime); text-transform:uppercase; letter-spacing:.05em; font-size:13px; }
-    textarea { width:100%; min-height:390px; resize:vertical; border-radius:10px; border:1px solid rgba(255,255,255,.24); background:rgba(0,0,0,.34); color:white; padding:12px; font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; outline:none; }
+    textarea {
+      width:100%; min-height:340px; resize:vertical; border-radius:10px;
+      border:1px solid rgba(255,255,255,.24); background:rgba(0,0,0,.34);
+      color:white; padding:12px;
+      font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+      outline:none;
+    }
+    .winner-badge {
+      display:flex; align-items:center; gap:6px;
+      background:linear-gradient(135deg,rgba(255,212,59,.18),rgba(255,159,28,.18));
+      border:1px solid rgba(255,212,59,.45);
+      border-radius:10px; padding:7px 12px;
+      font-size:13px; font-weight:900; color:var(--gold);
+      white-space:nowrap; flex-wrap:wrap;
+    }
+    .winner-badge .trophy { font-size:16px; }
+    .winner-badge .winner-names { color:var(--white); font-weight:700; }
     .average-row { color:var(--orange); font-weight:900; }
-    @media (max-width:760px) { .main { grid-template-columns:1fr; } #root { padding:12px; } }
+
+    /* ────────────────────────────────────────────────
+       MOBILE – tab-based layout
+    ──────────────────────────────────────────────── */
+    .tab-bar {
+      display:none;
+      background:rgba(4,43,19,.92);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;
+      padding:4px;
+      margin-bottom:10px;
+      gap:4px;
+    }
+    .tab-btn {
+      flex:1; border:none; border-radius:9px;
+      padding:10px 6px; font-size:13px; font-weight:800;
+      cursor:pointer; transition:background .15s, color .15s;
+      background:transparent; color:rgba(255,255,255,.55);
+      -webkit-tap-highlight-color:transparent;
+    }
+    .tab-btn.active {
+      background:rgba(255,255,255,.14); color:var(--lime);
+    }
+    .badge {
+      display:inline-block; background:var(--gold); color:#173100;
+      font-size:10px; font-weight:900; border-radius:999px;
+      padding:1px 6px; margin-left:4px; vertical-align:middle;
+    }
+
+    /* Ghost element used during touch drag */
+    #touch-ghost {
+      position:fixed; pointer-events:none; z-index:9999;
+      background:rgba(255,255,255,.96); color:#123b1d;
+      border-radius:8px; padding:6px 12px;
+      font-size:12px; font-weight:900;
+      box-shadow:0 4px 16px rgba(0,0,0,.4);
+      white-space:nowrap; transform:translate(-50%,-50%);
+      display:none;
+    }
+
+    @media (max-width:680px) {
+      body { padding:0; }
+      #root { padding:8px; }
+
+      .tab-bar { display:flex; }
+
+      /* Hide both panels by default; JS toggles .tab-active */
+      .main {
+        display:block;
+      }
+      .placement-panel,
+      .unplaced-panel {
+        display:none;
+      }
+      .placement-panel.tab-active,
+      .unplaced-panel.tab-active {
+        display:block;
+      }
+
+      .unplaced-list {
+        min-height:unset;
+        flex-direction:row;
+        flex-wrap:wrap;
+        gap:6px;
+      }
+      .team-tag {
+        width:auto;
+        flex-shrink:0;
+      }
+
+      textarea { min-height:260px; font-size:11px; }
+
+      .action-row button { flex:1; text-align:center; padding:11px 8px; }
+    }
   </style>
 </head>
 <body>
+
 <div id="root">
+  <!-- Top bar -->
   <div class="top-bar">
     <h1>⚽ Modifierad tabell</h1>
     <div class="pill">Simulera utfall mot tippade rader</div>
   </div>
 
+  <!-- Mobile tab bar -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="placement" id="tabPlacement">
+      Tabell <span class="badge" id="tabBadge">0/16</span>
+    </button>
+    <button class="tab-btn" data-tab="unplaced" id="tabUnplaced">
+      Oplacerade <span class="badge" id="tabUnplacedBadge">16</span>
+    </button>
+  </div>
+
+  <!-- Main grid -->
   <div class="main">
-    <div class="panel">
+    <!-- Left: placements -->
+    <div class="panel placement-panel tab-active" id="placementPanel">
       <h3>Lägg in en modifierad tabell</h3>
-      <p class="hint">Dra lagen till rätt plats, eller klicka på ett lag och därefter på önskad placering. Dubbelklicka på ett placerat lag för att flytta tillbaka det.</p>
+      <p class="hint">
+        Dra lagen till rätt plats, eller klicka på ett lag och sedan på önskad placering.
+        Dubbelklicka/dubbeltryck på ett placerat lag för att flytta tillbaka det.
+      </p>
       <div id="placements"></div>
       <div class="action-row">
         <button class="primary" id="okBtn" disabled>Simulera utfallet</button>
         <button class="secondary" id="resetBtn" type="button">Återställ</button>
+        <div id="winnerBadge" class="winner-badge" style="display:none"></div>
       </div>
       <p class="progress-text" id="progressText">Placera alla 16 lag för att simulera utfallet.</p>
       <div class="message" id="messageBox"></div>
     </div>
-    <div class="panel">
+
+    <!-- Right: unplaced -->
+    <div class="panel unplaced-panel" id="unplacedPanel">
       <h3>Oplacerade lag</h3>
       <div id="unplaced" class="unplaced-list"></div>
     </div>
@@ -83,527 +273,138 @@
   <div id="resultArea"></div>
 </div>
 
+<!-- Touch drag ghost -->
+<div id="touch-ghost"></div>
+
 <script>
+  /* ── Data ── */
   const TEAMS = [
-    "Hammarby IF", "Mjällby AIF", "AIK", "Malmö FF", "Djurgårdens IF",
-    "GAIS", "BK Häcken", "IFK Göteborg", "IK Sirius", "IF Elfsborg",
-    "Västerås SK", "IF Brommapojkarna", "Halmstads BK", "Kalmar FF",
-    "Örgryte IS", "Degerfors IF"
+    "Hammarby IF","Mjällby AIF","AIK","Malmö FF","Djurgårdens IF",
+    "GAIS","BK Häcken","IFK Göteborg","IK Sirius","IF Elfsborg",
+    "Västerås SK","IF Brommapojkarna","Halmstads BK","Kalmar FF",
+    "Örgryte IS","Degerfors IF"
+  ];
+  const MATCH_INDEX = {
+    "AIK":1,"IF Brommapojkarna":2,"Degerfors IF":3,"Djurgårdens IF":4,
+    "IF Elfsborg":5,"GAIS":6,"IFK Göteborg":7,"Halmstads BK":8,
+    "Hammarby IF":9,"BK Häcken":10,"Kalmar FF":11,"Malmö FF":12,
+    "Mjällby AIF":13,"IK Sirius":14,"Västerås SK":15,"Örgryte IS":16
+  };
+  const PREDICTED_ROWS = [
+    {"name":"Per J","tip":[9,13,7,14,12,4,6,10,1,5,2,8,15,3,11,16]},
+    {"name":"Fredrik Ö","tip":[13,9,4,7,6,1,12,5,14,10,2,3,8,16,11,15]},
+    {"name":"Peter F","tip":[9,13,12,4,5,6,7,14,10,1,2,3,8,11,15,16]},
+    {"name":"Uffe D","tip":[9,13,4,12,7,1,14,6,5,10,2,3,15,11,8,16]},
+    {"name":"BO","tip":[9,1,10,12,13,6,15,4,7,14,5,11,16,8,3,2]},
+    {"name":"Niklas T","tip":[9,6,13,7,12,4,1,14,10,2,5,3,8,16,15,11]},
+    {"name":"Michael M","tip":[13,9,7,4,14,6,10,12,1,5,3,8,16,2,15,11]},
+    {"name":"Henrik O","tip":[9,1,13,12,4,14,5,6,7,10,2,8,11,16,3,15]},
+    {"name":"Johan R","tip":[9,13,4,12,10,1,14,6,7,5,2,15,8,16,11,3]},
+    {"name":"Johan C","tip":[9,13,4,12,14,1,7,6,5,10,2,3,8,11,15,16]},
+    {"name":"Axel F","tip":[9,13,1,12,4,6,10,7,14,5,15,2,8,11,16,3]},
+    {"name":"Robin Ö","tip":[13,9,12,4,6,14,10,1,7,2,5,8,3,15,11,16]},
+    {"name":"Kia L","tip":[13,9,5,14,12,10,4,7,1,6,15,2,11,3,16,8]},
+    {"name":"Johanna F","tip":[10,12,7,13,14,4,5,8,1,11,9,2,3,15,6,16]},
+    {"name":"Jocce W","tip":[9,12,13,4,1,10,5,6,14,2,15,3,7,8,16,11]},
+    {"name":"Ulrika S","tip":[12,9,13,6,4,7,1,5,10,14,3,15,2,16,11,8]},
+    {"name":"Martin B","tip":[9,4,13,14,5,12,6,1,7,10,2,11,3,16,15,8]},
+    {"name":"Tobbe S","tip":[9,13,1,12,6,10,4,7,14,5,16,3,11,2,8,15]},
+    {"name":"Dan T S","tip":[9,4,1,14,12,10,13,5,6,2,7,16,15,3,8,11]},
+    {"name":"Medel Ara","tip":[9,13,12,4,1,14,6,7,10,5,2,3,15,8,11,16]}
   ];
 
-  const MATCH_INDEX = {
-    "AIK": 1,
-    "IF Brommapojkarna": 2,
-    "Degerfors IF": 3,
-    "Djurgårdens IF": 4,
-    "IF Elfsborg": 5,
-    "GAIS": 6,
-    "IFK Göteborg": 7,
-    "Halmstads BK": 8,
-    "Hammarby IF": 9,
-    "BK Häcken": 10,
-    "Kalmar FF": 11,
-    "Malmö FF": 12,
-    "Mjällby AIF": 13,
-    "IK Sirius": 14,
-    "Västerås SK": 15,
-    "Örgryte IS": 16
-  };
-
-  const PREDICTED_ROWS = [
-    {
-        "name": "Per J",
-        "tip": [
-            9,
-            13,
-            7,
-            14,
-            12,
-            4,
-            6,
-            10,
-            1,
-            5,
-            2,
-            8,
-            15,
-            3,
-            11,
-            16
-        ]
-    },
-    {
-        "name": "Fredrik Ö",
-        "tip": [
-            13,
-            9,
-            4,
-            7,
-            6,
-            1,
-            12,
-            5,
-            14,
-            10,
-            2,
-            3,
-            8,
-            16,
-            11,
-            15
-        ]
-    },
-    {
-        "name": "Peter F",
-        "tip": [
-            9,
-            13,
-            12,
-            4,
-            5,
-            6,
-            7,
-            14,
-            10,
-            1,
-            2,
-            3,
-            8,
-            11,
-            15,
-            16
-        ]
-    },
-    {
-        "name": "Uffe D",
-        "tip": [
-            9,
-            13,
-            4,
-            12,
-            7,
-            1,
-            14,
-            6,
-            5,
-            10,
-            2,
-            3,
-            15,
-            11,
-            8,
-            16
-        ]
-    },
-    {
-        "name": "BO",
-        "tip": [
-            9,
-            1,
-            10,
-            12,
-            13,
-            6,
-            15,
-            4,
-            7,
-            14,
-            5,
-            11,
-            16,
-            8,
-            3,
-            2
-        ]
-    },
-    {
-        "name": "Niklas T",
-        "tip": [
-            9,
-            6,
-            13,
-            7,
-            12,
-            4,
-            1,
-            14,
-            10,
-            2,
-            5,
-            3,
-            8,
-            16,
-            15,
-            11
-        ]
-    },
-    {
-        "name": "Michael M",
-        "tip": [
-            13,
-            9,
-            7,
-            4,
-            14,
-            6,
-            10,
-            12,
-            1,
-            5,
-            3,
-            8,
-            16,
-            2,
-            15,
-            11
-        ]
-    },
-    {
-        "name": "Henrik O",
-        "tip": [
-            9,
-            1,
-            13,
-            12,
-            4,
-            14,
-            5,
-            6,
-            7,
-            10,
-            2,
-            8,
-            11,
-            16,
-            3,
-            15
-        ]
-    },
-    {
-        "name": "Johan R",
-        "tip": [
-            9,
-            13,
-            4,
-            12,
-            10,
-            1,
-            14,
-            6,
-            7,
-            5,
-            2,
-            15,
-            8,
-            16,
-            11,
-            3
-        ]
-    },
-    {
-        "name": "Johan C",
-        "tip": [
-            9,
-            13,
-            4,
-            12,
-            14,
-            1,
-            7,
-            6,
-            5,
-            10,
-            2,
-            3,
-            8,
-            11,
-            15,
-            16
-        ]
-    },
-    {
-        "name": "Axel F",
-        "tip": [
-            9,
-            13,
-            1,
-            12,
-            4,
-            6,
-            10,
-            7,
-            14,
-            5,
-            15,
-            2,
-            8,
-            11,
-            16,
-            3
-        ]
-    },
-    {
-        "name": "Robin Ö",
-        "tip": [
-            13,
-            9,
-            12,
-            4,
-            6,
-            14,
-            10,
-            1,
-            7,
-            2,
-            5,
-            8,
-            3,
-            15,
-            11,
-            16
-        ]
-    },
-    {
-        "name": "Kia L",
-        "tip": [
-            13,
-            9,
-            5,
-            14,
-            12,
-            10,
-            4,
-            7,
-            1,
-            6,
-            15,
-            2,
-            11,
-            3,
-            16,
-            8
-        ]
-    },
-    {
-        "name": "Johanna F",
-        "tip": [
-            10,
-            12,
-            7,
-            13,
-            14,
-            4,
-            5,
-            8,
-            1,
-            11,
-            9,
-            2,
-            3,
-            15,
-            6,
-            16
-        ]
-    },
-    {
-        "name": "Jocce W",
-        "tip": [
-            9,
-            12,
-            13,
-            4,
-            1,
-            10,
-            5,
-            6,
-            14,
-            2,
-            15,
-            3,
-            7,
-            8,
-            16,
-            11
-        ]
-    },
-    {
-        "name": "Ulrika S",
-        "tip": [
-            12,
-            9,
-            13,
-            6,
-            4,
-            7,
-            1,
-            5,
-            10,
-            14,
-            3,
-            15,
-            2,
-            16,
-            11,
-            8
-        ]
-    },
-    {
-        "name": "Martin B",
-        "tip": [
-            9,
-            4,
-            13,
-            14,
-            5,
-            12,
-            6,
-            1,
-            7,
-            10,
-            2,
-            11,
-            3,
-            16,
-            15,
-            8
-        ]
-    },
-    {
-        "name": "Tobbe S",
-        "tip": [
-            9,
-            13,
-            1,
-            12,
-            6,
-            10,
-            4,
-            7,
-            14,
-            5,
-            16,
-            3,
-            11,
-            2,
-            8,
-            15
-        ]
-    },
-    {
-        "name": "Dan T S",
-        "tip": [
-            9,
-            4,
-            1,
-            14,
-            12,
-            10,
-            13,
-            5,
-            6,
-            2,
-            7,
-            16,
-            15,
-            3,
-            8,
-            11
-        ]
-    },
-    {
-        "name": "Medel Ara",
-        "tip": [
-            9,
-            13,
-            12,
-            4,
-            1,
-            14,
-            6,
-            7,
-            10,
-            5,
-            2,
-            3,
-            15,
-            8,
-            11,
-            16
-        ]
-    }
-];
-
+  /* ── Scoring ── */
   function buildPositionMap(indexOrder) {
     const map = {};
-    indexOrder.forEach((teamIndex, position) => { map[teamIndex] = position + 1; });
+    indexOrder.forEach((ti, pos) => { map[ti] = pos + 1; });
     return map;
   }
-
-  function calculateScore(actualIndexOrder, predictedIndexOrder) {
-    const actualPositions = buildPositionMap(actualIndexOrder);
-    const predictedPositions = buildPositionMap(predictedIndexOrder);
-    let varianceSum = 0;
-    let exactMatches = 0;
-    for (const teamIndex of actualIndexOrder) {
-      const diff = actualPositions[teamIndex] - predictedPositions[teamIndex];
-      varianceSum += diff * diff;
-      if (diff === 0) exactMatches++;
+  function calculateScore(actual, predicted) {
+    const ap = buildPositionMap(actual), pp = buildPositionMap(predicted);
+    let varianceSum = 0, exactMatches = 0;
+    for (const ti of actual) {
+      const d = ap[ti] - pp[ti];
+      varianceSum += d * d;
+      if (d === 0) exactMatches++;
     }
     return { varianceSum, exactMatches };
   }
-
-  function evaluatePredictedRows(actualIndexOrder) {
-    return PREDICTED_ROWS.map(row => ({
-      name: row.name,
-      ...calculateScore(actualIndexOrder, row.tip)
-    })).sort((a,b) =>
-      a.varianceSum - b.varianceSum ||
-      b.exactMatches - a.exactMatches ||
-      a.name.localeCompare(b.name, 'sv')
-    );
+  function evaluatePredictedRows(actual) {
+    return PREDICTED_ROWS.map(r => ({ name:r.name, ...calculateScore(actual, r.tip) }))
+      .sort((a,b) => a.varianceSum - b.varianceSum || b.exactMatches - a.exactMatches || a.name.localeCompare(b.name,'sv'));
   }
 
+  /* ── State ── */
   let placements = new Array(16).fill(null);
   let unplaced = [...TEAMS];
   let dragSource = null, dragSourceType = null, dragSourceIndex = null;
   let selectedTeam = null, selectedType = null, selectedIndex = null;
 
-  const placementsEl = document.getElementById('placements');
-  const unplacedEl = document.getElementById('unplaced');
-  const okBtn = document.getElementById('okBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const resultArea = document.getElementById('resultArea');
-  const progressText = document.getElementById('progressText');
-  const messageBox = document.getElementById('messageBox');
+  /* ── Elements ── */
+  const placementsEl  = document.getElementById('placements');
+  const unplacedEl    = document.getElementById('unplaced');
+  const okBtn         = document.getElementById('okBtn');
+  const resetBtn      = document.getElementById('resetBtn');
+  const resultArea    = document.getElementById('resultArea');
+  const progressText  = document.getElementById('progressText');
+  const messageBox    = document.getElementById('messageBox');
+  const tabBar        = document.getElementById('tabBar');
+  const placementPanel= document.getElementById('placementPanel');
+  const unplacedPanel = document.getElementById('unplacedPanel');
+  const tabBadge      = document.getElementById('tabBadge');
+  const tabUnplacedBadge = document.getElementById('tabUnplacedBadge');
+  const ghost         = document.getElementById('touch-ghost');
 
-  function showMessage(text) { messageBox.textContent = text; messageBox.style.display = 'block'; }
-  function clearMessage() { messageBox.textContent = ''; messageBox.style.display = 'none'; }
-  function clearSelection() { selectedTeam = null; selectedType = null; selectedIndex = null; }
+  /* ── Helpers ── */
+  const showMessage  = t => { messageBox.textContent = t; messageBox.style.display='block'; };
+  const clearMessage = () => { messageBox.textContent=''; messageBox.style.display='none'; };
+  const clearSelection = () => { selectedTeam=null; selectedType=null; selectedIndex=null; };
 
+  /* ── Tab switching (mobile) ── */
+  let activeTab = 'placement';
+  tabBar.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeTab = btn.dataset.tab;
+      tabBar.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b===btn));
+      placementPanel.classList.toggle('tab-active', activeTab === 'placement');
+      unplacedPanel.classList.toggle('tab-active', activeTab === 'unplaced');
+    });
+  });
+
+  /* ── Render ── */
   function render() {
+    const placed = placements.filter(Boolean).length;
+    tabBadge.textContent = placed + '/16';
+    tabUnplacedBadge.textContent = unplaced.length;
+
+    /* Placements */
     placementsEl.innerHTML = '';
     for (let i = 0; i < 16; i++) {
       const row = document.createElement('div');
       row.className = 'placement-row';
+
       const num = document.createElement('div');
       num.className = 'placement-num';
       num.textContent = i + 1;
       row.appendChild(num);
+
       const slot = document.createElement('div');
       slot.className = 'placement-slot';
       slot.dataset.index = i;
       if (placements[i]) slot.appendChild(makeTag(placements[i], 'placement', i));
-      slot.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; slot.classList.add('drag-over'); });
+
+      slot.addEventListener('dragover',  e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; slot.classList.add('drag-over'); });
       slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
-      slot.addEventListener('drop', e => { e.preventDefault(); slot.classList.remove('drag-over'); dropOnSlot(i); });
-      slot.addEventListener('click', () => placeSelectedOnSlot(i));
+      slot.addEventListener('drop',      e => { e.preventDefault(); slot.classList.remove('drag-over'); dropOnSlot(i); });
+      slot.addEventListener('click',     () => placeSelectedOnSlot(i));
       row.appendChild(slot);
       placementsEl.appendChild(row);
     }
 
+    /* Unplaced */
     unplacedEl.innerHTML = '';
     unplaced.forEach(team => unplacedEl.appendChild(makeTag(team, 'unplaced', null)));
-    const placed = placements.filter(Boolean).length;
+
     okBtn.disabled = placed < 16;
     progressText.textContent = placed < 16
       ? `${placed} av 16 lag placerade.`
@@ -615,25 +416,56 @@
     tag.className = 'team-tag';
     tag.textContent = name;
     tag.draggable = true;
-    tag.title = `${name}, ${MATCH_INDEX[name]}`;
+    tag.title = `${name} (index ${MATCH_INDEX[name]})`;
     if (selectedTeam === name && selectedType === type && selectedIndex === idx) tag.classList.add('selected');
-    tag.addEventListener('click', () => { selectedTeam = name; selectedType = type; selectedIndex = idx; clearMessage(); render(); });
-    tag.addEventListener('dragstart', event => {
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', name);
+
+    /* Click / double-click via timer.
+       dblclick fires AFTER two click events, but click re-renders the DOM
+       so the dblclick event never reaches the (now-replaced) element.
+       Solution: intercept on the first click, wait briefly, and decide. */
+    let clickTimer = null;
+    tag.addEventListener('click', e => {
+      e.stopPropagation();
+      if (clickTimer) {
+        /* Second click within 300 ms → treat as double-click */
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        if (type === 'placement') { returnTeamToUnplaced(idx); }
+        return;
+      }
+      clickTimer = setTimeout(() => {
+        clickTimer = null;
+        /* Single click – select the tag */
+        selectedTeam = name; selectedType = type; selectedIndex = idx;
+        clearMessage(); render();
+      }, 300);
+    });
+
+    /* Desktop drag */
+    tag.addEventListener('dragstart', ev => {
+      ev.dataTransfer.effectAllowed = 'move';
+      ev.dataTransfer.setData('text/plain', name);
       dragSource = name; dragSourceType = type; dragSourceIndex = idx;
       setTimeout(() => tag.classList.add('dragging'), 0);
     });
     tag.addEventListener('dragend', () => tag.classList.remove('dragging'));
-    tag.addEventListener('dblclick', () => { if (type === 'placement') returnTeamToUnplaced(idx); });
+
+    /* Touch drag */
+    addTouchDrag(tag, name, type, idx);
+
     return tag;
   }
 
+  /* ── Logic ── */
   function placeSelectedOnSlot(targetIdx) {
     if (!selectedTeam) return;
     dragSource = selectedTeam; dragSourceType = selectedType; dragSourceIndex = selectedIndex;
     dropOnSlot(targetIdx);
     clearSelection();
+    /* On mobile auto-switch tab back to table after placing */
+    if (window.innerWidth <= 680 && activeTab === 'unplaced') {
+      tabBar.querySelector('[data-tab="placement"]').click();
+    }
   }
 
   function returnTeamToUnplaced(srcIdx) {
@@ -656,12 +488,13 @@
       const srcIdx = parseInt(dragSourceIndex, 10);
       const displaced = placements[targetIdx];
       placements[targetIdx] = dragSource;
-      placements[srcIdx] = displaced;
+      placements[srcIdx] = displaced || null;
     }
     dragSource = null; clearSelection(); render();
   }
 
-  unplacedEl.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; unplacedEl.classList.add('drag-over'); });
+  /* Drag-to-unplaced-list */
+  unplacedEl.addEventListener('dragover',  e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; unplacedEl.classList.add('drag-over'); });
   unplacedEl.addEventListener('dragleave', () => unplacedEl.classList.remove('drag-over'));
   unplacedEl.addEventListener('drop', e => {
     e.preventDefault(); unplacedEl.classList.remove('drag-over');
@@ -672,42 +505,142 @@
     dragSource = null; clearSelection(); clearMessage(); render();
   });
 
+  /* ────────────────────────────────
+     TOUCH DRAG IMPLEMENTATION
+  ──────────────────────────────── */
+  let touchDragName = null, touchDragType = null, touchDragIdx = null;
+  let touchMoved = false;
+  let touchStartX = 0, touchStartY = 0;
+
+  function addTouchDrag(tag, name, type, idx) {
+    tag.addEventListener('touchstart', e => {
+      touchMoved = false;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchDragName = null; // not started yet
+    }, { passive: true });
+
+    tag.addEventListener('touchmove', e => {
+      const dx = Math.abs(e.touches[0].clientX - touchStartX);
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      if (!touchMoved && dx < 6 && dy < 6) return; // small threshold
+      touchMoved = true;
+
+      /* Start drag on first real move */
+      if (!touchDragName) {
+        touchDragName = name; touchDragType = type; touchDragIdx = idx;
+        ghost.textContent = name;
+        ghost.style.display = 'block';
+      }
+
+      e.preventDefault();
+      const t = e.touches[0];
+      ghost.style.left = t.clientX + 'px';
+      ghost.style.top  = t.clientY + 'px';
+
+      /* Highlight drop target */
+      ghost.style.display = 'none';
+      const el = document.elementFromPoint(t.clientX, t.clientY);
+      ghost.style.display = 'block';
+      document.querySelectorAll('.placement-slot,.unplaced-list').forEach(s => s.classList.remove('drag-over'));
+      const slot = el?.closest('.placement-slot');
+      const ul   = el?.closest('.unplaced-list');
+      if (slot) slot.classList.add('drag-over');
+      if (ul)   ul.classList.add('drag-over');
+    }, { passive: false });
+
+    tag.addEventListener('touchend', e => {
+      ghost.style.display = 'none';
+      document.querySelectorAll('.placement-slot,.unplaced-list').forEach(s => s.classList.remove('drag-over'));
+
+      if (!touchMoved || !touchDragName) {
+        /* Treat as tap – handled by click event */
+        touchDragName = null; return;
+      }
+
+      const t = e.changedTouches[0];
+      ghost.style.display = 'none';
+      const el = document.elementFromPoint(t.clientX, t.clientY);
+      ghost.style.display = 'none';
+
+      const slot = el?.closest('.placement-slot');
+      const ul   = el?.closest('.unplaced-list');
+
+      /* Set up drag state for shared dropOnSlot logic */
+      dragSource = touchDragName; dragSourceType = touchDragType; dragSourceIndex = touchDragIdx;
+
+      if (slot) {
+        dropOnSlot(parseInt(slot.dataset.index, 10));
+      } else if (ul && touchDragType === 'placement') {
+        placements[parseInt(touchDragIdx, 10)] = null;
+        if (!unplaced.includes(touchDragName)) unplaced.push(touchDragName);
+        dragSource = null; clearSelection(); clearMessage(); render();
+      } else {
+        dragSource = null; /* Dropped nowhere, cancel */
+      }
+      touchDragName = null;
+    });
+  }
+
+  /* ── Buttons ── */
+  okBtn.addEventListener('click', () => {
+    if (placements.filter(Boolean).length < 16) {
+      showMessage('Placera alla 16 lag innan du simulerar utfallet.');
+      return;
+    }
+    clearMessage();
+    showTextResult(createResultData());
+  });
+
+  resetBtn.addEventListener('click', () => {
+    placements = new Array(16).fill(null);
+    unplaced = [...TEAMS];
+    resultArea.innerHTML = '';
+    document.getElementById('winnerBadge').style.display = 'none';
+    clearSelection(); clearMessage(); render();
+  });
+
+  /* ── Result ── */
   function createResultData() {
     const actualIndexOrder = placements.map(team => MATCH_INDEX[team]);
     const rankedRows = evaluatePredictedRows(actualIndexOrder);
-    const maxExact = Math.max(...rankedRows.map(row => row.exactMatches));
-    const averageVariance = rankedRows.reduce((sum,row) => sum + row.varianceSum, 0) / rankedRows.length;
-    const averageExact = rankedRows.reduce((sum,row) => sum + row.exactMatches, 0) / rankedRows.length;
+    const maxExact = Math.max(...rankedRows.map(r => r.exactMatches));
+    const averageVariance = rankedRows.reduce((s,r) => s + r.varianceSum, 0) / rankedRows.length;
+    const averageExact    = rankedRows.reduce((s,r) => s + r.exactMatches, 0) / rankedRows.length;
     return { actualIndexOrder, rankedRows, maxExact, averageVariance, averageExact };
   }
 
   function buildTextResult(data) {
-    let text = `Modifierad tabell – simulerat utfall
-`;
-    text += `Sortering: lägst varians först. ★ = flest rätt placerade lag.
-
-`;
-    text += `#  Tippare          Varians  Rätt plats
-`;
-    text += `-- ---------------- -------  ----------
-`;
+    let t = `Modifierad tabell – simulerat utfall\n`;
+    t += `Sortering: lägst varians först. ★ = flest rätt placerade lag.\n\n`;
+    t += `#  Tippare          Varians  Rätt plats\n`;
+    t += `-- ---------------- -------  ----------\n`;
     data.rankedRows.forEach((row, idx) => {
       const star = row.exactMatches === data.maxExact ? ' ★' : '';
-      text += `${String(idx + 1).padStart(2,' ')} ${row.name.padEnd(16,' ')} ${String(row.varianceSum).padStart(7,' ')}  ${String(row.exactMatches).padStart(10,' ')}${star}
-`;
+      t += `${String(idx+1).padStart(2,' ')} ${row.name.padEnd(16,' ')} ${String(row.varianceSum).padStart(7,' ')}  ${String(row.exactMatches).padStart(10,' ')}${star}\n`;
     });
-    text += `-- ---------------- -------  ----------
-`;
-    text += `   ${'MEDELVÄRDE'.padEnd(16,' ')} ${data.averageVariance.toFixed(1).padStart(7,' ')}  ${data.averageExact.toFixed(1).padStart(10,' ')}
-`;
-    return text;
+    t += `-- ---------------- -------  ----------\n`;
+    t += `   ${'MEDELVÄRDE'.padEnd(16,' ')} ${data.averageVariance.toFixed(1).padStart(7,' ')}  ${data.averageExact.toFixed(1).padStart(10,' ')}\n`;
+    return t;
   }
 
   function showTextResult(data) {
+    /* ── Winner badge ── */
+    const winnerBadge = document.getElementById('winnerBadge');
+    const topScore = data.rankedRows[0];
+    const winners = data.rankedRows.filter(r =>
+      r.varianceSum === topScore.varianceSum && r.exactMatches === topScore.exactMatches
+    );
+    const names = winners.map(w => w.name).join(', ');
+    winnerBadge.innerHTML =
+      `<span class="trophy">🏆</span>` +
+      `<span>Vinnare:</span>` +
+      `<span class="winner-names">${names}</span>`;
+    winnerBadge.style.display = 'flex';
     resultArea.innerHTML = '';
     const box = document.createElement('div');
     box.className = 'result-box';
-    box.innerHTML = `<div class="result-header"><h3>Endast resultat</h3></div>`;
+    box.innerHTML = `<div class="result-header"><h3>Resultat</h3></div>`;
     const ta = document.createElement('textarea');
     ta.readOnly = true;
     ta.value = buildTextResult(data);
@@ -728,19 +661,6 @@
     resultArea.appendChild(box);
     box.scrollIntoView({ behavior:'smooth', block:'start' });
   }
-
-  okBtn.addEventListener('click', () => {
-    if (placements.filter(Boolean).length < 16) { showMessage('Placera alla 16 lag innan du simulerar utfallet.'); return; }
-    clearMessage();
-    showTextResult(createResultData());
-  });
-
-  resetBtn.addEventListener('click', () => {
-    placements = new Array(16).fill(null);
-    unplaced = [...TEAMS];
-    resultArea.innerHTML = '';
-    clearSelection(); clearMessage(); render();
-  });
 
   render();
 </script>
